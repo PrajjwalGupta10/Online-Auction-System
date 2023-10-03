@@ -1,0 +1,24 @@
+{% extends 'accounts/base.html' %}
+
+{% block em %}
+    {% for message in messages %}
+        <p>{{message}}</p>
+    {% endfor %}
+{% endblock %}
+
+
+{% block content %}
+
+<h1>add bid</h1>
+<form action="" method="POST">
+    {% csrf_token %}
+    {{form}}
+    <input type="submit">
+</form>
+<script type="text/javascript">
+    // var bidder = '{{ request.user.id }}';
+    // var product_id = '{{ product.id }}';
+    // document.getElementById('id_bidder').value = bidder;
+    // document.getElementById('id_auction_product_id').value = product_id;
+</script>
+{% endblock %}

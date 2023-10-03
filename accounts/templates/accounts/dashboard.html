@@ -1,0 +1,83 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<h1>Admin Dashboard</h1>
+
+<div class="container">
+    <div class="row">
+      {% for count, worth, label in numerical_stats %}
+        <div class="col">
+          <div class="card">
+            <div class="card-body">
+              <h5 class="card-title">{{label}}</h5>
+              <p class="card-text">{{count}}</p>
+              <h5 class="card-title">Worth</h5>
+              <p class="card-text">{{worth}} BDT</p>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+<br>
+    <div class="row">
+      <div class="col">
+        <div class="card">
+          <div class="card-body">
+            <canvas id="myChart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+  // const labels = [
+  //   'January',
+  //   'February',
+  //   'March',
+  //   'April',
+  //   'May',
+  //   'June',
+  // ];
+  var creations = [];
+  {% for date in creations %}
+    var d =new Date('{{date}}'); 
+    creations.push(d.toLocaleString());
+  {% endfor %}
+  var adds = [];
+  {% for c in auction_add_counts %}
+    adds.push(parseInt('{{c}}'))
+  {% endfor %}
+
+  const labels = creations;
+  const data = {
+    labels: labels,
+    datasets: [{
+      label: 'My First dataset',
+      backgroundColor: 'rgb(255, 99, 132)',
+      borderColor: 'rgb(255, 99, 132)',
+      // data: [0, 10, 5, 2, 20, 30, 45],
+      data: adds
+    }]
+  };
+  const config = {
+    type: 'line',
+    data: data,
+    options: {
+      
+    }
+  };
+
+
+
+  var myChart = new Chart(
+    document.getElementById('myChart'),
+    config
+  );
+</script>
+{% endblock %}

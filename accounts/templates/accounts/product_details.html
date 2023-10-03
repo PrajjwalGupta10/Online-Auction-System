@@ -1,0 +1,91 @@
+{% extends 'accounts/base.html' %}
+
+{% block content %}
+
+<style>
+    .product-div {
+        width: 550px;
+        margin: 0 auto;
+        text-align: justify;
+    }
+</style>
+
+    <h1>
+        Product Detatils
+    </h1>
+    <div class="product-div">
+        <div class="row">
+            <!-- photo and name -->
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src="{{product.product_photo.url}}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">{{product.product_name}}</h5>
+                        
+                        <p class="card-text">Posted By <i>{{product.user_id.username}}</i></p>
+        
+                        {% if product.user_id == request.user %}
+                                <a href="{% url 'update-auction-product' product.id %}" class="btn btn-warning">Edit</a>
+                                <a href="{% url 'delete-auction-product' product.id %}" class="btn btn-danger">Delete</a>
+                        {% elif current_user_as_bidder %}
+                                <p></p>
+                        {% else %}
+                                <a href="{% url 'add-bid' product.id %}" class="btn btn-success">Bid</a>
+                        {% endif %}
+                    </div>
+                </div>
+            <div class="card" style="width: 18rem;">
+                <!-- product details -->
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Description:</b> {{product.product_description}}</li>
+                    <li class="list-group-item"><b>Minimum Bid:</b> {{product.minimum_bid_price}} BDT</li>
+                    <li class="list-group-item"><b>Ends at:</b> {{product.auction_end_date_time}}</li>
+                    {% if today.date > product.auction_end_date_time.date and  today.date > product.auction_end_date_time.date %}
+                        <li class="list-group-item">Auction Ended. <br> Winner is {{winner.bidder}}</li>
+                    {% elif current_user_as_bidder %}
+                        <li class="list-group-item">
+                            <strong>Your Bid: </strong> {{current_user_as_bidder.first.bid_amount}} BDT
+                            <br>
+                            <a href="{% url 'update-bid' product.id %}" class="btn btn-outline-warning">Edit</a>
+                            <a href="{% url 'delete-bid' product.id %}" class="btn btn-outline-danger">Delete</a>
+                        </li>
+                        
+                    {% endif %}
+                    
+                </ul>
+            </div>
+        </div>
+    </div>
+    <br>
+    <center>
+        <!-- bidder table -->
+        <div class="card" style="width: 40rem;">
+            <div class="card-body">
+                <h5 class="card-title">Bidders</h5>
+                <p class="card-text">
+                    <table class="table">
+                    <thead>
+                        <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Bid Amount (BDT)</th>
+                        <th scope="col">Bid Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for bidder_data in bidders %}
+                        <tr>
+                        <th scope="row">{{bidder_data.bidder.id}}</th>
+                        <td>{{bidder_data.bidder.username}}</td>
+                        <td>{{bidder_data.bid_amount}}</td>
+                        <td>{{bidder_data.bid_date}}</td>
+                        </tr>
+                        {% endfor%}
+                    </tbody>
+                    </table>
+                </p>
+            </div>
+        </div>
+    </center>
+
+
+{% endblock %}

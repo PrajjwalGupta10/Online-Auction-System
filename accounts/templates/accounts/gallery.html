@@ -1,0 +1,71 @@
+{% extends 'accounts/base.html' %}
+<!-- custom styling -->
+{% block custom_styling %}
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <style>
+          .floating-btn {
+              width: 80px;
+              height: 80px;
+              background: chocolate;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              text-decoration: none;
+              border-radius: 50%;
+              color: cornsilk;
+              font-size: 40px;
+              box-shadow: 2px 2px 5px rgba(14, 6, 0, 0.384);
+              position: fixed;
+              right: 20px;
+              bottom: 20px;
+              transition: background 0.25s;
+              outline: chocolate;
+              border: none;
+              cursor: pointer;
+          }
+          .floating-btn:active {
+              background: rgb(192, 89, 15);
+          }
+      </style>
+{% endblock %}
+
+<!-- block for error messages -->
+{% block em %}
+    {% for message in messages %}
+        <p>{{message}}</p>
+    {% endfor %}
+{% endblock %}
+
+<!-- block for gallery card views -->
+{% block content %}
+    <center>
+        <h1>{{prompt}}</h1>
+        <br>
+    </center>
+    <!-- card -->
+    <center>
+    {% for product in products %}
+        <a href="{% url 'product-details' product.id %}">
+            <div class="card" style="width: 35rem;color: rgba(63, 61, 60, 0.959);">
+            <img class="card-img-top" src="{{product.product_photo.url}}" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title">{{product.product_name}}</h5>
+                <p class="card-text">
+                    Minimum Bid: <strong>{{product.minimum_bid_price}} </strong><i>BDT </i><br>
+                    By <br>
+                    {{product.user_id}}
+                <p>
+                <a href="{% url 'product-details' product.id %}" class="btn btn-primary">View Details</a>
+            </div>
+            </div>
+        </a>
+        <br>
+    {% endfor %}
+    </center>
+
+    <!-- floating button -->
+    <a href="{% url 'create-auction-product' %}">
+        <button class="material-icons floating-btn">add</button>
+    </a>
+{% endblock %}

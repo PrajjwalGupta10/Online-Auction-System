@@ -1,0 +1,10 @@
+body {
+ background-image: url("../assets/auction_background.jpg");
+ /* background credit: https://all-free-download.com/free-photos/download/tan_background_2_211626.html */
+ height: 500px; /* You must set a specified height */
+ background-position: center; /* Center the image */
+ background-repeat: no-repeat; /* Do not repeat the image */
+ background-size: cover; 
+ background-attachment: fixed;
+ /* color: rgb(47, 74, 163); */
+}
